@@ -112,19 +112,62 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """ Overrides the emptyline method of CMD """
         pass
-
     def do_create(self, args):
-        """ Create an object of any class"""
+        """Create an object of any class with given parameters."""
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+
+        # Split the arguments into class name and parameters
+        args_list = args.split(' ')
+        class_name = atgs_list[0]
+        params = args.list[1:]
+
+        # Check if the class exists
+        if class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+
+        #Initialize a dictionary to store the parameters
+        obj_params = {}
+
+        # Iterate through the parameters
+        for param in params:
+            # Split each parameter into key and value using '=' as separator
+            param_parts = param.split('=')
+            if len(param_parts) !=2:
+                print(f"Skipping invalid parameter: {param}")
+                continue
+
+            key, value = param_parts
+
+            # Replace underscores with spaces in key names
+            key = key.replace('_', ' ')
+
+            # Determine the data type based on the specified syntax
+            if value.startswith('"') and value.endswith('"'):
+                # String value
+                value = value[1:-1].replace('\\"', '"')
+            elif '.' in value:
+                try:
+                    value = float(value)
+                except ValueError:
+                    print(f"Skipping invalid float value: {param}")
+                    continue
+
+            else:
+                try:
+                    value = int(value)
+                except ValueError:
+                    print(f"Skipping invalid integer value: {param}")
+                    continue
+
+            obj_params[key] = value
+
+            new_instance = HBNBCommand.classes[class_name](**obj_params)
+            storage.save()
+            print(new_instance.id)
+            storage.save()
 
     def help_create(self):
         """ Help information for the create method """
