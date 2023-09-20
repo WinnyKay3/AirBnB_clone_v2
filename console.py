@@ -73,7 +73,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] is '{' and pline[-1] is'}'\
+                    if pline[0] is '{' and pline[-1] is '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -112,6 +112,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """ Overrides the emptyline method of CMD """
         pass
+
     def do_create(self, args):
         """Create an object of any class with given parameters."""
         if not args:
@@ -128,14 +129,14 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        #Initialize a dictionary to store the parameters
+        # Initialize a dictionary to store the parameters
         obj_params = {}
 
         # Iterate through the parameters
         for param in params:
             # Split each parameter into key and value using '=' as separator
             param_parts = param.split('=')
-            if len(param_parts) !=2:
+            if len(param_parts) != 2:
                 print(f"Skipping invalid parameter: {param}")
                 continue
 
@@ -362,6 +363,7 @@ class HBNBCommand(cmd.Cmd):
         """ Help information for the update class """
         print("Updates an object with new information")
         print("Usage: update <className> <id> <attName> <attVal>\n")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
