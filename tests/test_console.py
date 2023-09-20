@@ -9,6 +9,7 @@ from models.state import State
 from models.base_model import BaseModel
 import sys
 
+
 class TestCreateCommand(unittest.TestCase):
     def setUp(self):
         # Redirect stdout to capture printed output
@@ -22,26 +23,26 @@ class TestCreateCommand(unittest.TestCase):
     def test_create_valid_params(self):
         # Test object creation with valid parameters
         cmd = HBNBCommand()
-        cmd.do_create("User name=\"John\" age=30")
+        cmd.do_create('User name="John" age=30')
         output = sys.stdout.getvalue()
         self.assertIn("User", output)  # Check if the class name is present
         self.assertIn("name", output)  # Check if a parameter key is present
-        self.assertIn("age", output)   # Check if another parameter key is present
+        self.assertIn("age", output)  # Check if another parameter key is present
 
     def test_create_invalid_params(self):
         # Test object creation with invalid parameters
         cmd = HBNBCommand()
-        cmd.do_create("User name=John age=\"thirty\"")
+        cmd.do_create('User name=John age="thirty"')
         output = sys.stdout.getvalue()
         self.assertIn("** class name missing **", output)  # Check for error message
-        self.assertNotIn("User", output)                   # Check if the class name is not present
-        self.assertNotIn("name", output)                   # Check if a parameter key is not present
-        self.assertNotIn("age", output)                    # Check if another parameter key is not present
+        self.assertNotIn("User", output)  # Check if the class name is not present
+        self.assertNotIn("name", output)  # Check if a parameter key is not present
+        self.assertNotIn("age", output)  # Check if another parameter key is not present
 
     def test_create_string_param(self):
         # Test object creation with a string parameter
         cmd = HBNBCommand()
-        cmd.do_create("User name=\"John Doe\"")
+        cmd.do_create('User name="John Doe"')
         user = User.all()[0]
         self.assertEqual(user.name, "John Doe")
 
@@ -62,7 +63,7 @@ class TestCreateCommand(unittest.TestCase):
     def test_create_escaped_quotes(self):
         # Test object creation with escaped double quotes
         cmd = HBNBCommand()
-        cmd.do_create("User name=\"John \\\"Doe\\\"\"")
+        cmd.do_create('User name="John \\"Doe\\""')
         user = User.all()[0]
         self.assertEqual(user.name, 'John "Doe"')
 
@@ -77,21 +78,21 @@ class TestCreateCommand(unittest.TestCase):
     def test_create_empty_string(self):
         # Test object creation with an empty string parameter
         cmd = HBNBCommand()
-        cmd.do_create("State name=\"\"")
+        cmd.do_create('State name=""')
         state = State.all()[0]
         self.assertEqual(state.name, "")
 
     def test_create_duplicate_params(self):
         # Test object creation with duplicate parameters (last one should take precedence)
         cmd = HBNBCommand()
-        cmd.do_create("User name=\"John\" name=\"Doe\"")
+        cmd.do_create('User name="John" name="Doe"')
         user = User.all()[0]
         self.assertEqual(user.name, "Doe")
 
     def test_create_with_underscore(self):
         # Test object creation with underscores in parameter names
         cmd = HBNBCommand()
-        cmd.do_create("User first_name=\"John\" last_name=\"Doe\"")
+        cmd.do_create('User first_name="John" last_name="Doe"')
         user = User.all()[0]
         self.assertEqual(user.first_name, "John")
         self.assertEqual(user.last_name, "Doe")
@@ -99,4 +100,3 @@ class TestCreateCommand(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

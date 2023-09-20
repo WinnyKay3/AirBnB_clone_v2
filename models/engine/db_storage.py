@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from os import getenv
 from models.base_model import Base
 
+
 class DBStorage:
     """DBStorage class for managing the database"""
 
@@ -13,13 +14,16 @@ class DBStorage:
 
     def __init__(self):
         """Initialize DBStorage instance"""
-        self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
-                                      .format(getenv('HBNB_MYSQL_USER'),
-                                              getenv('HBNB_MYSQL_PWD'),
-                                              getenv('HBNB_MYSQL_HOST'),
-                                              getenv('HBNB_MYSQL_DB')),
-                                      pool_pre_ping=True)
-        if getenv('HBNB_ENV') == 'test':
+        self.__engine = create_engine(
+            "mysql+mysqldb://{}:{}@{}/{}".format(
+                getenv("HBNB_MYSQL_USER"),
+                getenv("HBNB_MYSQL_PWD"),
+                getenv("HBNB_MYSQL_HOST"),
+                getenv("HBNB_MYSQL_DB"),
+            ),
+            pool_pre_ping=True,
+        )
+        if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
@@ -57,7 +61,6 @@ class DBStorage:
     def reload(self):
         """Create all tables and create the current database session"""
         Base.metadata.create_all(self.__engine)
-        self.__session = scoped_session(sessionmaker(bind=self.__engine,
-                                                      expire_on_commit=False))
-
-
+        self.__session = scoped_session(
+            sessionmaker(bind=self.__engine, expire_on_commit=False)
+        )
