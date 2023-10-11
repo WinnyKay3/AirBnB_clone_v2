@@ -13,6 +13,7 @@ def do_pack():
         now = datetime.now()
         timestamp = now.strftime("%Y%m%d%H%M%S")
         archive_name = "web_static_" + timestamp + ".tgz"
+        print("Packing web_static to versions/{}".format(archive_name))
         local("mkdir -p versions")
         local("tar -czvf versions/{} web_static".format(archive_name))
         return "versions/{}".format(archive_name)
