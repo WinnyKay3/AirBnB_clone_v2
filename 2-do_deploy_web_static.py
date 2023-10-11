@@ -44,11 +44,16 @@ def do_deploy(archive_path):
     name = os.path.splitext(file)[0]
     if put(archive_path, "/tmp/{}".format(file)).failed is True:
         return False
-    if run("mkdir -p /data/web_static/releases/{}/".format(name)).failed is True:
+    if (
+        run("mkdir -p /data/web_static/releases/{}/".format(name)).failed
+        is True
+    ):
         return False
     if (
         run(
-            "tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(file, name)
+            "tar -xzf /tmp/{} -C /data/web_static/releases/{}/".format(
+                file, name
+            )
         ).failed
         is True
     ):
@@ -64,7 +69,9 @@ def do_deploy(archive_path):
     ):
         return False
     if (
-        run("rm -rf /data/web_static/releases/{}/web_static".format(name)).failed
+        run(
+            "rm -rf /data/web_static/releases/{}/web_static".format(name)
+        ).failed
         is True
     ):
         return False
@@ -72,7 +79,9 @@ def do_deploy(archive_path):
         return False
     if (
         run(
-            "ln -s /data/web_static/releases/{}/ /data/web_static/current".format(name)
+            "ln -s /data/web_static/releases/{}/ /data/web_static/current".format(
+                name
+            )
         ).failed
         is True
     ):
