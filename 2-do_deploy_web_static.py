@@ -21,11 +21,8 @@ def do_deploy(archive_path):
         return False
     file = archive_path.split("/")[-1]
     name = file.split(".")[0]
-
+    run("rm -rf /data/web_static/releases/{}/".format(name))
     if put(archive_path, "/tmp/{}".format(file)).failed is True:
-        return False
-    if run("rm -rf /data/web_static/releases/{}/".
-            format(name)).failed is True:
         return False
     if run("mkdir -p /data/web_static/releases/{}/".
             format(name)).failed is True:
@@ -46,5 +43,5 @@ def do_deploy(archive_path):
     if run("ln -s /data/web_static/releases/{}/ /data/web_static/current".
             format(name)).failed is True:
         return False
-    puts("New version deployed!")
+    print("New version deployed!")
     return True
