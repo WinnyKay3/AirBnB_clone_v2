@@ -326,19 +326,32 @@ class HBNBCommand(cmd.Cmd):
                 args.append(v)
         else:  # isolate args
             args = args[2]
+<<<<<<< HEAD
+            if args and args[0] == '\"':  # check for quoted arg
+                second_quote = args.find('\"', 1)
+=======
             if args and args[0] is '"':  # check for quoted arg
                 second_quote = args.find('"', 1)
+>>>>>>> 567a5cb33937f292cb7d610922d84a68018d72ba
                 att_name = args[1:second_quote]
                 args = args[second_quote + 1 :]
 
             args = args.partition(" ")
 
             # if att_name was not quoted arg
+<<<<<<< HEAD
+            if not att_name and args[0] != ' ':
+                att_name = args[0]
+            # check for quoted val arg
+            if args[2] and args[2][0] == '\"':
+                att_val = args[2][1:args[2].find('\"', 1)]
+=======
             if not att_name and args[0] is not " ":
                 att_name = args[0]
             # check for quoted val arg
             if args[2] and args[2][0] is '"':
                 att_val = args[2][1 : args[2].find('"', 1)]
+>>>>>>> 567a5cb33937f292cb7d610922d84a68018d72ba
 
             # if att_val was not quoted arg
             if not att_val and args[2]:
