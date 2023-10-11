@@ -20,7 +20,7 @@ def do_deploy(archive_path):
     if os.path.isfile(archive_path) is False:
         return False
     file = archive_path.split("/")[-1]
-    name = file.split(".")[0]
+    name = os.path.splitext(file)[0]
     if put(archive_path, "/tmp/{}".format(file)).failed is True:
         return False
     if run("mkdir -p /data/web_static/releases/{}/".
